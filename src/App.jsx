@@ -64,18 +64,18 @@ export default function App() {
                   <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       <img
-                        src="https://tailwindcss.com/_next/static/media/constraint-based.c6eb530e.png"
+                        src={`${import.meta.env.VITE_API_URL}/uploaded/images/${product.image}`}
                         alt=""
                         className="object-contain"
                         width={60}
                         height={60}
                       />
                     </th>
-                    <td className="px-6 py-4">Silver</td>
-                    <td className="px-6 py-4">$2999</td>
-                    <td className="px-6 py-4">Stock</td>
-                    <td className="px-6 py-4">123</td>
-                    <td className="px-6 py-4">123</td>
+                    <td className="px-6 py-4">{product.name}</td>
+                    <td className="px-6 py-4">{product.price}</td>
+                    <td className="px-6 py-4">{product.stock}</td>
+                    <td className="px-6 py-4">{product.createdAt}</td>
+                    <td className="px-6 py-4">{product.updatedAt}</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         {/* Edit Icon */}
