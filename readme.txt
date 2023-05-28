@@ -11,3 +11,6 @@ $ yarn add axios
 install react router
 https://reactrouter.com/en/main
 $ yarn add react-router-dom react-dom
+
+File config project
+.env
