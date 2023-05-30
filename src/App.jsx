@@ -18,6 +18,22 @@ export default function App() {
     }
   }, [])
 
+  const handleDeleteProduct = async (id) => {
+    try {
+      if (!id) return
+
+      if (confirm(`Are your sure delete ${id}?`)) {
+        const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
+        // Delete success
+        if (result.data.result === 'ok') {
+          fetchProducts()
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     fetchProducts()
   }, [fetchProducts])
@@ -108,7 +124,10 @@ export default function App() {
                           </svg>
                         </div>
                         {/* Trash Icon */}
-                        <div className="flex justify-center items-center cursor-pointer w-[30px] h-[30px] hover:bg-red-300 rounded-md">
+                        <div
+                          onClick={() => handleDeleteProduct(product.id)}
+                          className="flex justify-center items-center cursor-pointer w-[30px] h-[30px] hover:bg-red-300 rounded-md"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
