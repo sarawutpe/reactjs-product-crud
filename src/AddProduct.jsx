@@ -1,19 +1,41 @@
 import React, { useState } from 'react'
 
 export default function AddProduct() {
+  const [formProduct, setFormProduct] = useState({
+    name: '',
+    price: 0,
+    stock: 0,
+  })
   const [previewImage, setPreviewImage] = useState(null)
+  const [image, setImage] = useState(null)
 
   const handleSubmit = (e) => {
     // Prevent tab reload.
     e.preventDefault()
-    console.log('submit')
+
+    const formData = new FormData()
+    formData.append('name', '')
+    formData.append('price', '')
+    formData.append('stock', '')
+
+    if (image) {
+      formData.append('image', image)
+    }
+
+    console.log('ok')
   }
 
   // Handle image change and set state
   const handleImageChange = (event) => {
+    // console.log(event)
+
     const file = event?.target?.files[0]
     if (file) {
       const imageURL = URL.createObjectURL(file)
+
+      // Set file for submit to server
+      setImage(event.target.file[0])
+      // Set file for preview image when select
       setPreviewImage(imageURL)
     }
   }
@@ -46,6 +68,7 @@ export default function AddProduct() {
                     id="name"
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(event) => setFormProduct({ ...formProduct, name: event.target.value })}
                   />
                 </div>
               </div>
@@ -61,6 +84,7 @@ export default function AddProduct() {
                     id="price"
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(event) => setFormProduct({ ...formProduct, price: Number(event.target.value) })}
                   />
                 </div>
               </div>
@@ -76,6 +100,7 @@ export default function AddProduct() {
                     id="stock"
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(event) => setFormProduct({ ...formProduct, stock: Number(event.target.value) })}
                   />
                 </div>
               </div>
