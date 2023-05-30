@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function AddProduct() {
-  const handleSubmit = () => {
+  const [previewImage, setPreviewImage] = useState(null)
+
+  const handleSubmit = (e) => {
+    // Prevent tab reload.
+    e.preventDefault()
     console.log('submit')
   }
+
+  // Handle image change and set state
+  const handleImageChange = (event) => {
+    const file = event?.target?.files[0]
+    if (file) {
+      const imageURL = URL.createObjectURL(file)
+      setPreviewImage(imageURL)
+    }
+  }
+
   return (
     <>
       <div className="flex justify-center pt-8">
@@ -15,10 +29,10 @@ export default function AddProduct() {
             <form onSubmit={handleSubmit}>
               {/* Image */}
               <div className="mb-2">
-                <div className="h-[100px] mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                  <img src="" alt="" />
+                <div className="mb-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  {previewImage && <img src={previewImage} className="h-[100px] object-contain" />}
                 </div>
-                <input type="file" name="" id="" />
+                <input type="file" accept="image/*" onChange={handleImageChange} />
               </div>
               {/* Name */}
               <div className="mb-2">
