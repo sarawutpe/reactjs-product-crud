@@ -2,9 +2,11 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
 import buddhistEra from 'dayjs/plugin/buddhistEra'
+import { useNavigate } from 'react-router-dom'
 dayjs.extend(buddhistEra)
 
 export default function App() {
+  const navigate = useNavigate()
   const [products, setProducts] = useState([])
 
   const fetchProducts = useCallback(async () => {
@@ -30,6 +32,10 @@ export default function App() {
             <button
               type="button"
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={() => {
+                console.log('click!')
+                navigate('/add')
+              }}
             >
               Add +
             </button>
@@ -82,7 +88,10 @@ export default function App() {
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         {/* Edit Icon */}
-                        <div className="flex justify-center items-center cursor-pointer w-[30px] h-[30px] hover:bg-blue-300 rounded-md">
+                        <div
+                          onClick={() => navigate(`/edit/${product.id}`)}
+                          className="flex justify-center items-center cursor-pointer w-[30px] h-[30px] hover:bg-blue-300 rounded-md"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
