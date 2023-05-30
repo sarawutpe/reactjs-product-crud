@@ -12,5 +12,9 @@ install react router
 https://reactrouter.com/en/main
 $ yarn add react-router-dom react-dom
 
-File config project
+Environment (File config project)
 .env
+
+install Day.js Manage date format
+https://day.js.org
+$ yarn add dayjs

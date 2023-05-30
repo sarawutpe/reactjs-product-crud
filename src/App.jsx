@@ -1,5 +1,8 @@
 import axios from 'axios'
+import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useState } from 'react'
+import buddhistEra from 'dayjs/plugin/buddhistEra'
+dayjs.extend(buddhistEra)
 
 export default function App() {
   const [products, setProducts] = useState([])
@@ -20,7 +23,7 @@ export default function App() {
   return (
     <>
       <div className="flex justify-center pt-8">
-        <div className="container max-w-7xl">
+        <div className="container max-w-7xl p-2">
           {/* Title */}
           <div className="flex justify-between">
             <h2 className="text-slate-900 text-4xl tracking-tight font-extrabold">“React.js + Express CRUD.”</h2>
@@ -74,8 +77,8 @@ export default function App() {
                     <td className="px-6 py-4">{product.name}</td>
                     <td className="px-6 py-4">{product.price}</td>
                     <td className="px-6 py-4">{product.stock}</td>
-                    <td className="px-6 py-4">{product.createdAt}</td>
-                    <td className="px-6 py-4">{product.updatedAt}</td>
+                    <td className="px-6 py-4">{dayjs(product.createdAt).format('DD-MM-BBBB HH:mm')}</td>
+                    <td className="px-6 py-4">{dayjs(product.updatedAt).format('DD-MM-BBBB HH:mm')}</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         {/* Edit Icon */}

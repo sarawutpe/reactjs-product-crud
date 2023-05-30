@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Edit from './Edit.jsx'
+import AddProduct from './AddProduct.jsx'
+import EditProduct from './EditProduct.jsx'
 
 const router = createBrowserRouter([
   {
@@ -15,8 +16,12 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
+        path: 'add',
+        element: <AddProduct />,
+      },
+      {
         path: 'edit/:id',
-        element: <Edit />,
+        element: <EditProduct />,
       },
     ],
   },
