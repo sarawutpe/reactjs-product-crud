@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function EditProduct() {
@@ -56,6 +56,31 @@ export default function EditProduct() {
     }
   }
 
+  // Restore data by id
+  const fetchProductById = useCallback(async () => {
+    if (!id) return
+
+    const result = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
+    if (result.data) {
+      // Restore name, price, stock
+      setFormProduct({
+        name: result.data?.name,
+        price: result.data?.price,
+        stock: result.data?.stock,
+      })
+
+      // Restore image
+      const image = result.data?.image
+      if (image) {
+        setPreviewImage(`${import.meta.env.VITE_API_URL}/uploaded/images/${image}`)
+      }
+    }
+  }, [id])
+
+  useEffect(() => {
+    fetchProductById()
+  }, [fetchProductById])
+
   return (
     <>
       <div className="flex justify-center pt-8">
@@ -84,6 +109,7 @@ export default function EditProduct() {
                     type="text"
                     name="name"
                     id="name"
+                    value={formProduct.name}
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(event) => setFormProduct({ ...formProduct, name: event.target.value })}
@@ -100,6 +126,7 @@ export default function EditProduct() {
                     type="number"
                     name="price"
                     id="price"
+                    value={formProduct.price}
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(event) => setFormProduct({ ...formProduct, price: event.target.value })}
@@ -116,6 +143,7 @@ export default function EditProduct() {
                     type="number"
                     name="stock"
                     id="stock"
+                    value={formProduct.stock}
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(event) => setFormProduct({ ...formProduct, stock: event.target.value })}
@@ -135,7 +163,7 @@ export default function EditProduct() {
                   type="submit"
                   className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Add +
+                  Edit +
                 </button>
               </div>
             </form>
