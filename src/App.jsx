@@ -26,6 +26,7 @@ export default function App() {
         const result = await axios.delete(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
         // Delete success
         if (result.data.result === 'ok') {
+          // Called fetch new product
           fetchProducts()
         }
       }
