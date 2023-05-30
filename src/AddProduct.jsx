@@ -1,4 +1,6 @@
+import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function AddProduct() {
   const [formProduct, setFormProduct] = useState({
@@ -8,24 +10,34 @@ export default function AddProduct() {
   })
   const [image, setImage] = useState(null)
   const [previewImage, setPreviewImage] = useState(null)
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    console.log(formProduct)
-    // Prevent tab reload.
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    try {
+      console.log(formProduct)
+      // Prevent tab reload.
+      e.preventDefault()
 
-    // New form data for submit
-    const formData = new FormData()
-    formData.append('name', formProduct.name)
-    formData.append('price', formProduct.price)
-    formData.append('stock', formProduct.stock)
+      // New form data for submit
+      const formData = new FormData()
+      formData.append('name', formProduct.name)
+      formData.append('price', formProduct.price)
+      formData.append('stock', formProduct.stock)
 
-    // Check image before append image
-    if (image) {
-      formData.append('image', image)
+      // Check image before append image
+      if (image) {
+        formData.append('image', image)
+      }
+
+      // Called api
+      const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/products`, formData)
+      // If result is ok
+      if (result.data.result === 'ok') {
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error)
     }
-
-    // Called api
   }
 
   // Handle image change and set state
@@ -34,11 +46,11 @@ export default function AddProduct() {
 
     const file = event?.target?.files[0]
     if (file) {
-      const imageURL = URL.createObjectURL(file)
-
       // Set file for submit to server
-      setImage(event.target.files[0])
+      setImage(file)
+
       // Set file for preview image when select
+      const imageURL = URL.createObjectURL(file)
       setPreviewImage(imageURL)
     }
   }
@@ -59,6 +71,8 @@ export default function AddProduct() {
                 </div>
                 <input type="file" accept="image/*" onChange={handleImageChange} />
               </div>
+              {/* Debug: */}
+              {/* {JSON.stringify(formProduct)} */}
               {/* Name */}
               <div className="mb-2">
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
