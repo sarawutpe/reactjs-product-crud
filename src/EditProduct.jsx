@@ -73,6 +73,8 @@ export default function EditProduct() {
       const image = result.data?.image
       if (image) {
         setPreviewImage(`${import.meta.env.VITE_API_URL}/uploaded/images/${image}`)
+        // Example.
+        // http://localhost:8085/uploaded/images/MBHpTS7eZk.jpg
       }
     }
   }, [id])
