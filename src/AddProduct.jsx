@@ -3,26 +3,29 @@ import React, { useState } from 'react'
 export default function AddProduct() {
   const [formProduct, setFormProduct] = useState({
     name: '',
-    price: 0,
-    stock: 0,
+    price: '',
+    stock: '',
   })
-  const [previewImage, setPreviewImage] = useState(null)
   const [image, setImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
 
   const handleSubmit = (e) => {
+    console.log(formProduct)
     // Prevent tab reload.
     e.preventDefault()
 
+    // New form data for submit
     const formData = new FormData()
-    formData.append('name', '')
-    formData.append('price', '')
-    formData.append('stock', '')
+    formData.append('name', formProduct.name)
+    formData.append('price', formProduct.price)
+    formData.append('stock', formProduct.stock)
 
+    // Check image before append image
     if (image) {
       formData.append('image', image)
     }
 
-    console.log('ok')
+    // Called api
   }
 
   // Handle image change and set state
@@ -34,7 +37,7 @@ export default function AddProduct() {
       const imageURL = URL.createObjectURL(file)
 
       // Set file for submit to server
-      setImage(event.target.file[0])
+      setImage(event.target.files[0])
       // Set file for preview image when select
       setPreviewImage(imageURL)
     }
@@ -84,7 +87,7 @@ export default function AddProduct() {
                     id="price"
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(event) => setFormProduct({ ...formProduct, price: Number(event.target.value) })}
+                    onChange={(event) => setFormProduct({ ...formProduct, price: event.target.value })}
                   />
                 </div>
               </div>
@@ -100,7 +103,7 @@ export default function AddProduct() {
                     id="stock"
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(event) => setFormProduct({ ...formProduct, stock: Number(event.target.value) })}
+                    onChange={(event) => setFormProduct({ ...formProduct, stock: event.target.value })}
                   />
                 </div>
               </div>
