@@ -15,12 +15,14 @@ export default function EditProduct() {
 
   const handleSubmit = async (e) => {
     try {
+      if (!id) return
       // console.log(formProduct)
       // Prevent tab reload.
       e.preventDefault()
 
       // New form data for submit
       const formData = new FormData()
+      formData.append('id', id)
       formData.append('name', formProduct.name)
       formData.append('price', formProduct.price)
       formData.append('stock', formProduct.stock)
@@ -31,7 +33,7 @@ export default function EditProduct() {
       }
 
       // Called api
-      const result = await axios.post(`${import.meta.env.VITE_API_URL}/api/products`, formData)
+      const result = await axios.put(`${import.meta.env.VITE_API_URL}/api/products/${id}`, formData)
       // If result is ok
       if (result.data.result === 'ok') {
         navigate('/')
